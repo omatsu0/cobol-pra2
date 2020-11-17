@@ -1,21 +1,26 @@
 000000 IDENTIFICATION DIVISION.
 000010 PROGRAM-ID.    HELLO.
+       ENVIRONMENT DIVISION.
+        INPUT-OUTPUT SECTION.
+          FILE-CONTROL.
+            SELECT OUT-FILE ASSIGN TO 'out.txt'
+              ORGANIZATION IS LINE SEQUENTIAL.
        DATA DIVISION.
+         FILE SECTION.
+          FD OUT-FILE.
+            01 OUT-FILE-REC PIC 99.
          WORKING-STORAGE SECTION.
-          01 MY-COUNTER PIC 9(3) VALUE 1.
+          01 LINE-COUNT PIC 99 VALUE 0.
 000020 PROCEDURE      DIVISION.
 000030   MAIN           SECTION.
-            *> PERFORM 10 TIMES
-            *>   DISPLAY "counter = " MY-COUNTER
-            *>   ADD 1 TO MY-COUNTER
-            *> END-PERFORM.
+            OPEN OUTPUT OUT-FILE.
 
-            *> PERFORM UNTIL MY-COUNTER > 10
-            *>   DISPLAY "counter = " MY-COUNTER
-            *>   ADD 1 TO MY-COUNTER
-            *> END-PERFORM.
+            PERFORM 10 TIMES
+              ADD 1 TO LINE-COUNT
+              MOVE LINE-COUNT TO OUT-FILE-REC
+              WRITE OUT-FILE-REC
+              DISPLAY OUT-FILE-REC
+            END-PERFORM
 
-            PERFORM VARYING MY-COUNTER FROM 1 BY 3 UNTIL MY-COUNTER > 10
-              DISPLAY "counter = " MY-COUNTER
-            END-PERFORM.
+            CLOSE OUT-FILE.
 000040      STOP  RUN.
