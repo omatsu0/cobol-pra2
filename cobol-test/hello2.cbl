@@ -3,24 +3,19 @@
        ENVIRONMENT DIVISION.
         INPUT-OUTPUT SECTION.
           FILE-CONTROL.
-            SELECT OUT-FILE ASSIGN TO 'out.txt'
-              ORGANIZATION IS LINE SEQUENTIAL.
+            SELECT IN-FILE ASSIGN TO 'in.txt'
+              ORGANIZATION IS LINE SEQUENTIAL
+              STATUS IN-FILE-STATUS.
        DATA DIVISION.
          FILE SECTION.
-          FD OUT-FILE.
-            01 OUT-FILE-REC PIC 99.
+          FD IN-FILE.
+            01 IN-FILE-REC PIC x(20).
          WORKING-STORAGE SECTION.
-          01 LINE-COUNT PIC 99 VALUE 0.
+          01 IN-FILE-STATUS PIC XX.
 000020 PROCEDURE      DIVISION.
 000030   MAIN           SECTION.
-            OPEN OUTPUT OUT-FILE.
+            OPEN INPUT IN-FILE.
+            PERFORM UNTIL IN-FILE-STATUS NOT = "00"
 
-            PERFORM 10 TIMES
-              ADD 1 TO LINE-COUNT
-              MOVE LINE-COUNT TO OUT-FILE-REC
-              WRITE OUT-FILE-REC
-              DISPLAY OUT-FILE-REC
-            END-PERFORM
-
-            CLOSE OUT-FILE.
+            END-PERFORM.
 000040      STOP  RUN.
