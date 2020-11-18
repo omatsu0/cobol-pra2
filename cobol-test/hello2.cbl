@@ -15,7 +15,16 @@
 000020 PROCEDURE      DIVISION.
 000030   MAIN           SECTION.
             OPEN INPUT IN-FILE.
-            PERFORM UNTIL IN-FILE-STATUS NOT = "00"
 
+            PERFORM UNTIL IN-FILE-STATUS NOT = "00"
+              READ IN-FILE
+                AT END
+                  DISPLAY "-- end --"
+                NOT AT END
+                  DISPLAY "Content: " IN-FILE-REC
+              END-READ
             END-PERFORM.
+
+            CLOSE IN-FILE.
+            
 000040      STOP  RUN.
